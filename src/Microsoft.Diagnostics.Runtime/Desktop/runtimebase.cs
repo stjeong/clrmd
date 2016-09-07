@@ -844,7 +844,9 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
             return _dacInterface;
         }
 
-
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         internal IEnumerable<ClrStackFrame> EnumerateStackFrames(DesktopThread thread)
         {
             IXCLRDataProcess proc = GetClrDataProcess();
@@ -907,12 +909,20 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
             }
             finally
             {
-                if (task != null)
-                    Marshal.FinalReleaseComObject(task);
-
-                if (stackwalk != null)
-                    Marshal.FinalReleaseComObject(stackwalk);
+                StackFrameReleaseComObject(task, stackwalk);
             }
+        }
+
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
+        void StackFrameReleaseComObject(IXCLRDataTask task, IXCLRDataStackWalk stackwalk)
+        {
+            if (task != null)
+                Marshal.FinalReleaseComObject(task);
+
+            if (stackwalk != null)
+                Marshal.FinalReleaseComObject(stackwalk);
         }
 
         internal ILToNativeMap[] GetILMap(Address ip)

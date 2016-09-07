@@ -642,6 +642,9 @@ namespace Microsoft.Diagnostics.Runtime
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool FreeLibrary(IntPtr hModule);
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public static IntPtr LoadLibrary(string lpFileName)
         {
             return LoadLibraryEx(lpFileName, 0, LoadLibraryFlags.NoFlags);
@@ -719,6 +722,9 @@ namespace Microsoft.Diagnostics.Runtime
         }
 
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         internal static bool GetFileVersion(string dll, out int major, out int minor, out int revision, out int patch)
         {
             major = minor = revision = patch = 0;
@@ -751,6 +757,9 @@ namespace Microsoft.Diagnostics.Runtime
             return true;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         internal static bool TryGetWow64(IntPtr proc, out bool result)
         {
             if (Environment.OSVersion.Version.Major > 5 ||
@@ -766,6 +775,9 @@ namespace Microsoft.Diagnostics.Runtime
         }
     }
 
+#if !V2_SUPPORT
+    [System.Security.SecurityCritical]
+#endif
     internal sealed class SafeWin32Handle : SafeHandleZeroOrMinusOneIsInvalid
     {
         public SafeWin32Handle() : base(true) { }
@@ -781,6 +793,9 @@ namespace Microsoft.Diagnostics.Runtime
             SetHandle(handle);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecurityCritical]
+#endif
         protected override bool ReleaseHandle()
         {
             return NativeMethods.CloseHandle(handle);

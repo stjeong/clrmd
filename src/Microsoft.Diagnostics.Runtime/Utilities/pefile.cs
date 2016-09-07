@@ -856,6 +856,10 @@ namespace Microsoft.Diagnostics.Runtime.Utilities
             }
         }
         #region private
+
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         private void GetBuffer(int buffSize)
         {
             if (_buff != null)

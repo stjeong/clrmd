@@ -1127,6 +1127,9 @@ namespace Microsoft.Diagnostics.Runtime
                 throw new ArgumentException("clrDataProcess not an instance of IXCLRDataProcess");
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public DacLibrary(DataTargetImpl dataTarget, string dacDll)
         {
             if (dataTarget.ClrVersions.Count == 0)
@@ -1151,6 +1154,9 @@ namespace Microsoft.Diagnostics.Runtime
                 throw new ClrDiagnosticsException("Failure loading DAC: CreateDacInstance failed 0x" + res.ToString("x"), ClrDiagnosticsException.HR.DacError);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         ~DacLibrary()
         {
             foreach (object obj in _release)
@@ -1380,6 +1386,9 @@ namespace Microsoft.Diagnostics.Runtime
             threadID = 0;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public void GetThreadContext(uint threadID, uint contextFlags, uint contextSize, IntPtr context)
         {
             _dataReader.GetThreadContext(threadID, contextFlags, contextSize, context);
@@ -2048,6 +2057,10 @@ namespace Microsoft.Diagnostics.Runtime
 
         private const int PROCESS_VM_READ = 0x10;
         private const int PROCESS_QUERY_INFORMATION = 0x0400;
+
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public LiveDataReader(int pid)
         {
             _pid = pid;
@@ -2074,6 +2087,9 @@ namespace Microsoft.Diagnostics.Runtime
             }
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public void Close()
         {
             if (_process != IntPtr.Zero)
@@ -2100,6 +2116,9 @@ namespace Microsoft.Diagnostics.Runtime
             return (uint)IntPtr.Size;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public IList<ModuleInfo> EnumerateModules()
         {
             List<ModuleInfo> result = new List<ModuleInfo>();
@@ -2143,6 +2162,9 @@ namespace Microsoft.Diagnostics.Runtime
             return result;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public void GetVersionInfo(ulong addr, out VersionInfo version)
         {
             StringBuilder filename = new StringBuilder(1024);
@@ -2155,6 +2177,9 @@ namespace Microsoft.Diagnostics.Runtime
                 version = new VersionInfo();
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public bool ReadMemory(ulong address, byte[] buffer, int bytesRequested, out int bytesRead)
         {
             try
@@ -2169,6 +2194,9 @@ namespace Microsoft.Diagnostics.Runtime
             }
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public bool ReadMemory(ulong address, IntPtr buffer, int bytesRequested, out int bytesRead)
         {
             try
@@ -2241,6 +2269,9 @@ namespace Microsoft.Diagnostics.Runtime
             return true;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         public bool GetThreadContext(uint threadID, uint contextFlags, uint contextSize, IntPtr context)
         {
             using (SafeWin32Handle thread = OpenThread(ThreadAccess.THREAD_ALL_ACCESS, true, threadID))
