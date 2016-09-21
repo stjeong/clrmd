@@ -1105,6 +1105,10 @@ namespace Microsoft.Diagnostics.Runtime
             return ConvertStruct<I, T>(output);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecurityCritical]
+#endif
+
         protected I Request<I, T>(uint id)
             where T : struct, I
             where I : class
@@ -1117,6 +1121,9 @@ namespace Microsoft.Diagnostics.Runtime
             return ConvertStruct<I, T>(output);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecurityCritical]
+#endif
         protected bool RequestStruct<T>(uint id, ref T t)
             where T : struct
         {
@@ -1194,6 +1201,9 @@ namespace Microsoft.Diagnostics.Runtime
             return new byte[Marshal.SizeOf(typeof(T))];
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecurityCritical]
+#endif
         protected I ConvertStruct<I, T>(byte[] bytes)
             where I : class
             where T : I
