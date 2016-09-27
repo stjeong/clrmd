@@ -1069,6 +1069,9 @@ namespace Microsoft.Diagnostics.Runtime
             return result >= 0;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         protected I Request<I, T>(uint id, byte[] input)
             where T : struct, I
             where I : class
@@ -1081,6 +1084,9 @@ namespace Microsoft.Diagnostics.Runtime
             return ConvertStruct<I, T>(output);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         protected I Request<I, T>(uint id, ulong param)
             where T : struct, I
             where I : class
@@ -1093,6 +1099,9 @@ namespace Microsoft.Diagnostics.Runtime
             return ConvertStruct<I, T>(output);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         protected I Request<I, T>(uint id, uint param)
             where T : struct, I
             where I : class
@@ -1138,6 +1147,9 @@ namespace Microsoft.Diagnostics.Runtime
             return true;
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         protected bool RequestStruct<T>(uint id, ulong addr, ref T t)
             where T : struct
         {
