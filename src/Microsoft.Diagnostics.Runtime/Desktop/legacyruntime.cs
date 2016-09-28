@@ -484,6 +484,9 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
             return BytesToString(_buffer);
         }
 
+#if !V2_SUPPORT
+        [System.Security.SecuritySafeCritical]
+#endif
         internal override uint GetMetadataToken(ulong mt)
         {
             uint token = uint.MaxValue;
